@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+        }
+        #map, #story {
+            height: 500px;
+        }
+        #story {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        #text {
+            flex: 1;
+            overflow-y: auto;
+        }
+		.welcome-control {
+            background: white;
+			width:400px !important;
+            height: 300px;
+            padding: 20px !important;
+            border-radius: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin: 50px;
+            overflow-y: auto;
+			
+        }
+
+        .close-welcome-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #7f8c8d;
+            padding: 0 5px;
+        }
+        .storyLegend {
+            border: 2px solid #411093;
+            background: #fff;
+            color: #000;
+            padding: 15px;
+			 
+        }
+        .storyLegend button {
+            border: 2px solid #411093;
+            padding: 10px;
+            font-size: 1em;
+            width: 50px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="story">
+            <div id="text"></div>
+        </div>
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Initialisation de la carte
+        var map = L.map('map').setView([43.944827228888734, 4.816506893623895], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+		
+		// Fenêtre de bienvenue
+		  var WelcomeControl = L.Control.extend({
+            options: {
+                position: 'topright'
+            },
+            onAdd: function(map) {
+                var div = L.DomUtil.create('div', 'welcome-control');
+                div.innerHTML = `
+                    <div style="text-align: justify;">
+                        <button class="close-welcome-btn" id="closeWelcome">✕</button>
+                        <h2>Le &laquo procès des viols de Mazan &raquo : comme terrain d'enquête</h2>
+                        <p>
+Perrine Lachenal, anthropologue, chargée de recherche au CNRS, rattachée au Centre Norbert Elias.
+Céline Lesourd, anthropologue, chargée de recherche au CNRS, rattachée au Centre Norbert Elias.<br>
+
+
+<strong>Référence</strong><br>
+
+<em>Mazan, Anthropologie d’un procès pour viols,</em> Le Bruit du monde, 2025 - Lachenal Perrine et Lesourd Céline (coord.), Bègue Camille, Dussy Dorothée, Florenza Lucille, Fonvielle Stéphanie, Gouez Riwanon, Gourarier Mélanie, Hamdoun Fatma, Hérault Laurence, Legras Corentin, Perrin Raphaël, Salord Lopez Michelle, Sériaux Irène.<br>
+
+1er décembre 2024. C’est sur cette carte de la ville que nous nous penchons ce premier soir. Une carte d’Avignon récupérée à l’office du tourisme le matin même. Nous venons tout juste d’arriver et de poser nos affaires dans une maison, avenue Montfavet, derrière le Palais de justice. Nous resterons dans cette maison pendant 3 semaines. Précisément jusqu’au 19 décembre 2024, le jour du verdict du procès dit des &laquo viols de Mazan &raquo. Celui-ci a commencé quelques semaines plus tôt, le 2 septembre 2024 : une journée historique lors de laquelle Gisèle Pelicot, soutenue par ses avocats, a demandé la levée du huis-clos &laquo pour que la honte change de camp &raquo ainsi qu’elle le justifiait en faisant sien un slogan féministe. C’est grâce à son geste que des centaines de journalistes – majoritairement des femmes – ont pu accéder aux audiences, et ouvrir grand les portes du tribunal à un large public. À Marseille, dans notre laboratoire de recherche, nous avons pu ainsi suivre quotidiennement le procès à distance. Jusqu’au jour où cela ne nous suffit plus : nous décidons de nous rendre sur place. Ce &laquo nous &raquo c’est un collectif, composé de 14 chercheur·es, des anthropologues majoritairement mais aussi un sociologue et une sociolinguiste, travaillant toutes et tous depuis les études de genre.<br>
+Nous nous installons à Avignon car nous souhaitons y mener une enquête de terrain, ensemble, autour de ce procès pour comprendre ce qu’il vient bousculer, et ce qu’il laisse indemne aussi. L’épicentre de l'événement que nous interrogeons se situe au tribunal, aucun doute là-dessus, mais nous voulons aussi suivre les lignes de faille engendrées par lui en dehors de l’enceinte judiciaire. Nous envisageons alors Avignon comme une caisse de résonnance. Une ville de taille moyenne que nous souhaitons considérer dans ses spécificités : cité de papes, cité de théâtre, cité prestigieuse dans un des départements les plus pauvres de France. Une ville banale et singulière, un laboratoire social où traquer les échos et explorer les retombées d’un procès dit &laquo de société &raquo. <br>
+Les données que nous collectons durant les trois semaines passées sur place seront ensuite mises en commun afin de nourrir un chantier d’écriture qui nous permettra au mois d’octobre 2025, soit une année après le début du procès, d’accompagner la sortie d’un livre que nous signerons à 14. Mazan, anthropologie d’un procès pour viol est une restitution de notre enquête : sous forme de fresque, les chapitres donnent à voir la pluralité des bouleversements, à petites et à grandes échelles, engendrés par ce procès historique. La carte d’Avignon proposée ici, ponctuée d’extraits de nos entretiens, est une manière de restituer d’une autre manière certaines dimensions de notre enquête ethnographique.</p>
+                    </div>
+                `;
+                div.querySelector('#closeWelcome').onclick = function() {
+                    map.removeControl(welcomeControl);
+                };
+                return div;
+            }
+        });
+        var welcomeControl = new WelcomeControl();
+        welcomeControl.addTo(map);
+
+        // Fonction pour créer des icônes colorées
+        function createColoredIcon(color) {
+            return L.divIcon({
+                html: `
+                    <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 0 C24.8366 0 32 7.16344 32 16 C32 24.8366 24.8366 32 16 32 C7.16344 32 0 24.8366 0 16 C0 7.16344 7.16344 0 16 0 Z" fill="${color}" />
+                        <path d="M16 5 C10.4775 5 6 9.48242 6 15.0114 C6 24.5152 16 31 16 31 C16 31 26 24.5152 26 15.0114 C26 9.48242 21.5225 5 16 5 Z" fill="white" stroke="${color}" stroke-width="2" />
+                    </svg>
+                `,
+                iconSize: [32, 32],
+                iconAnchor: [16, 32],
+                className: 'custom-svg-icon'
+            });
+        }
+
+        // Tableau des markers
+        var markers = [
+            {
+                coords: [43.94437, 4.8165],
+                id: 2,
+                text: `
+                    <div>
+                        <h3>1.Plaidoirie de la défense en trois actes (11 décembre 2024) :<em> « L’opinion publique est venue pourrir ce procès »</em></h3>
+                        <p><Strong>Acte 1. </strong>Réhabilitation des accusés : ces bons pères de famille-collègues-voisins le cœur sur la main ne sont pas des &laquo garçons &raquo qui violent. D’ailleurs, l’un deux s’est présenté au domicile des Pelicot dans la journée, or &laquo on ne viole pas à midi ! &raquo. Le script du viol ancré, et à ancrer, dans les imaginaires met en scène des hommes marginaux et brutaux, ou des &laquo monstres &raquo, s’attaquant la nuit à une &laquo belle fille &raquo dans une &laquo rue sombre &raquo.
+Rappelons qu’en France, chaque heure 26 femmes sont victimes de viol, de tentative de viol, ou d’agression sexuelle. Soit toutes les 2 minutes 30. Dans 61% des cas, l’agresseur est connu personnellement : un voisin, un ami, un collègue et, <a href="https://mobile.interieur.gouv.fr/Interstats/L-enquete-Vecu-et-ressenti-en-matiere-de-securite-VRS" style="color: blue; text-decoration: underline; font-weight: none;" target="_blank">dans 28 % des cas,</a>, c’est un conjoint ou un ex-conjoint.<br>
+
+<strong>Acte 2.</strong> Victimisation secondaire : Gisèle Pelicot  &laquo cette femme si intelligente &raquo , n’aurait pas vu clair dans le jeu de son mari après des années de vie commune. S’en étonner et insinuer qu’elle est complice d’un jeu libertin… D’ailleurs, la victime fait du sein nu à la plage. Piétiner le statut de victime.
+Rappelons encore que 3 sur 10 des victimes de viol, de tentative de viol, ou d’agression sexuelle gardent le silence. Pour les victimes qui portent plainte,  <a href="https://www.ipp.eu/publication/le-traitement-judiciaire-des-violences-sexuelles-et-conjugales-en-france/" style="color: blue; text-decoration: underline; font-weight: none;" target="_blank">86 % pour des plaintes</a> sont classées sans suite. <br>
+
+<strong>Acte 3.</strong> Inversion de la culpabilité. En plus de l’acquittement, demande est faite que soit &laquo lavé l’honneur &raquo de ces &laquo garçons &raquo , victimes de Pelicot et de la &laquo vox populi&raquo . Se retourner pour fustiger le public de la salle d’audience, pour la plupart des femmes journalistes et chercheuses. Discréditer leur présence, leur écriture, leur analyse, leur influence. Au-delà, délégitimer l’émoi et la colère des femmes. Car, rappelons enfin, que <a href="https://mobile.interieur.gouv.fr/Interstats/L-enquete-Vecu-et-ressenti-en-matiere-de-securite-VRS" style="color: blue; text-decoration: underline; font-weight: none;" target="_blank">moins de 1% des viols</a> rapportés par des femmes majeures ont fait l’objet d’une condamnation en 2022.<br>
+<figure>
+<img src="https://blogterrain.hypotheses.org/files/2026/04/Lachenal-Mazan_Orange.jpeg" alt="Devant le Palais de justice. Oranges amenées par quelques manifestantes, comme symbole des peines de détention souhaitées, et laissées contre un mur, sur le trottoir, le jour du verdict sur demande des CRS qui les envisagent comme de &laqo possible projectiles&raquo <br>Crédit Lachenal, décembre 2024" style="max-width: 100%; height: auto;">
+			<figcaptation style="font-style: italic; color: #666;">Devant le Palais de justice. Oranges amenées par quelques manifestantes, comme symbole des peines de détention souhaitées, et laissées contre un mur, sur le trottoir, le jour du verdict sur demande des CRS qui les envisagent comme de &laqo possible projectiles&raquo <br>Crédit Lachenal, décembre 2024"</figcaption>
+        </figure></p>
+                    </div>
+                `,
+                icon: createColoredIcon('#FF0000')
+            },
+            {
+                coords: [43.94408, 4.81595],
+                id: 3,
+                text: `
+                    <div>
+                        <h3>Exemple 2</h3>
+                        <p>Exemple de texte 2</p>
+                    </div>
+                `,
+                icon: createColoredIcon('#00FF00')
+            }
+        ];
+
+        // Initialisation de l'index et de l'élément texte
+        var index = 1;
+        var textElement = document.getElementById("text");
+       textElement.innerHTML = `
+    <div>
+        <h3>Bienvenue !</h3>
+        <p>Pour débuter la navigation fermer la fenêtre d'introduction et cliquer sur suivant en bas à droite</p>
+    </div>
+`;
+ 
+
+        // Légende avec boutons Précédent/Suivant
+        let legend = L.control({ position: "bottomright" });
+        legend.onAdd = function(map) {
+            let div = L.DomUtil.create("div", "storyLegend");
+            div.innerHTML = `
+                <button id="prev">Préc</button>
+                <button id="next">Suiv</button>
+            `;
+            let next = div.querySelector("#next");
+            next.onclick = function(e) {
+                index = (index + 1) % markers.length;
+                moveMap(index);
+            };
+            let prev = div.querySelector("#prev");
+            prev.onclick = function(e) {
+                index = (index - 1 + markers.length) % markers.length;
+                moveMap(index);
+            };
+            return div;
+        };
+        legend.addTo(map);
+
+        // Fonction pour centrer la carte et mettre à jour le texte
+        function moveMap(index) {
+            var marker = markers[index];
+            map.flyTo(marker.coords, 18);
+            textElement.innerHTML = marker.text; //  Met à jour le texte
+        }
+
+        // Ajout des markers à la carte
+        markers.forEach(function(marker, i) {
+            L.marker(marker.coords, {icon: marker.icon})
+                .addTo(map)
+                .on("click", function() {
+                    index = i;
+                    moveMap(index);
+                });
+				});
+    </script>
+</body>
+</html>
