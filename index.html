@@ -20,18 +20,6 @@
             flex: 1;
             overflow-y: auto;
         }
-		.welcome-control {
-            background: white;
-			width:600px !important;
-            height: 600px;
-            padding: 20px !important;
-            border-radius: 50px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            margin: 50px;
-            overflow-y: auto;
-			
-        }
-
         .close-welcome-btn {
             position: absolute;
             top: 10px;
@@ -74,29 +62,6 @@
         // Initialisation de la carte
         var map = L.map('map').setView([43.944827228888734, 4.816506893623895], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-		
-		// Fenêtre de bienvenue
-		  var WelcomeControl = L.Control.extend({
-            options: {
-                position: 'topright'
-            },
-            onAdd: function(map) {
-                var div = L.DomUtil.create('div', 'welcome-control');
-                div.innerHTML = `
-                    <div style="text-align: justify;">
-                        <button class="close-welcome-btn" id="closeWelcome">✕</button>
-                        <h2></h2>
-                        <p>texte</p>
-                    </div>
-                `;
-                div.querySelector('#closeWelcome').onclick = function() {
-                    map.removeControl(welcomeControl);
-                };
-                return div;
-            }
-        });
-        var welcomeControl = new WelcomeControl();
-        welcomeControl.addTo(map);
 
         // Fonction pour créer des icônes colorées
         function createColoredIcon(color) {
@@ -151,8 +116,6 @@
         <p>Pour débuter la navigation fermer la fenêtre d'introduction et cliquer sur suivant en bas à droite</p>
     </div>
 `;
- 
-
         // Légende avec boutons Précédent/Suivant
         let legend = L.control({ position: "bottomright" });
         legend.onAdd = function(map) {
