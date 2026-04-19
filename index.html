@@ -241,7 +241,7 @@ Rappelons encore que 3 sur 10 des victimes de viol, de tentative de viol, ou d�
         // Initialisation de l'index et de l'élément texte
         var index = 0;
         var textElement = document.getElementById("text");
-      textElement.innerHTML = markers[1].text; 
+      textElement.innerHTML = markers[0].text; 
 		
         // Légende avec boutons Précédent/Suivant
         let legend = L.control({ position: "bottomright" });
@@ -268,7 +268,7 @@ Rappelons encore que 3 sur 10 des victimes de viol, de tentative de viol, ou d�
         // Fonction pour centrer la carte et mettre à jour le texte
         function moveMap(index) {
             var marker = markers[index];
-            map.flyTo(marker.coords, 16);
+            map.flyTo(marker.coords, 19);
             textElement.innerHTML = marker.text; //  Met à jour le texte
         }
 
