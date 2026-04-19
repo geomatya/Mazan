@@ -261,8 +261,10 @@ Rappelons encore que 3 sur 10 des victimes de viol, de tentative de viol, ou dâ€
                 <button id="next">Suiv</button>
             `;
             let next = div.querySelector("#next");
-            next.onclick = function(e) {
+            next.onclick = function(e) {		
+				console.log("Index avant clic :", index);
                 index = (index + 1) % markers.length;
+				console.log("Index apres clic :", index);
                 moveMap(index);
             };
             let prev = div.querySelector("#prev");
