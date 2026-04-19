@@ -269,6 +269,7 @@ Rappelons encore que 3 sur 10 des victimes de viol, de tentative de viol, ou dâ€
             prev.onclick = function(e) {
                 index = (index - 1 + markers.length) % markers.length;
                 moveMap(index);
+				console.log("Index avant clic :", index);
             };
             return div;
         };
@@ -287,8 +288,8 @@ Rappelons encore que 3 sur 10 des victimes de viol, de tentative de viol, ou dâ€
                 .addTo(map)
                 .on("click", function() {
                     index = i;
-					console.log("Index avant clic :", index);
                     moveMap(index);
+					console.log("Index avant clic :", index);
                 });
 				});
     </script>
