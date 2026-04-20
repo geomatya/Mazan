@@ -74,7 +74,21 @@
                 className: 'custom-svg-icon'
             });
         }
-
+		     // Fonction pour créer des icônes colorées
+        function createColoredIcon(id,color) {
+            return L.divIcon({
+                html: `
+                    <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 0 C24.8366 0 32 7.16344 32 16 C32 24.8366 24.8366 32 16 32 C7.16344 32 0 24.8366 0 16 C0 7.16344 7.16344 0 16 0 Z" fill="${color}" />
+                        <path d="M16 5 C10.4775 5 6 9.48242 6 15.0114 C6 24.5152 16 31 16 31 C16 31 26 24.5152 26 15.0114 C26 9.48242 21.5225 5 16 5 Z" fill="white" stroke="${color}" stroke-width="2" />
+					<text x="16" y="18" font-family="Arial" font-size="10" fill="${color}" text-anchor="middle" dominant-baseline="middle">${id}</text>
+</svg>
+                `,
+                iconSize: [32, 32],
+                iconAnchor: [16, 32],
+                className: 'custom-svg-icon'
+            });
+        }
         // Tableau des markers
         var markers = [
 			 {
@@ -86,7 +100,7 @@
         <p>Pour débuter la navigation cliquer sur "Suivant" en bas à droite</p>
                     </div>
                 `,
-              icon: createColoredIcon('#0000')
+             color : "blue"
             },
             {
                 coords: [43.94437, 4.8165],
@@ -253,21 +267,6 @@ Rappelons encore que 3 sur 10 des victimes de viol, de tentative de viol, ou d�
                 icon: createColoredIcon('#00FF00')
             },
         ];
-		     // Fonction pour créer des icônes colorées
-        function createColoredIcon(id,color) {
-            return L.divIcon({
-                html: `
-                    <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16 0 C24.8366 0 32 7.16344 32 16 C32 24.8366 24.8366 32 16 32 C7.16344 32 0 24.8366 0 16 C0 7.16344 7.16344 0 16 0 Z" fill="${color}" />
-                        <path d="M16 5 C10.4775 5 6 9.48242 6 15.0114 C6 24.5152 16 31 16 31 C16 31 26 24.5152 26 15.0114 C26 9.48242 21.5225 5 16 5 Z" fill="white" stroke="${color}" stroke-width="2" />
-					<text x="16" y="18" font-family="Arial" font-size="10" fill="${color}" text-anchor="middle" dominant-baseline="middle">${id}</text>
-</svg>
-                `,
-                iconSize: [32, 32],
-                iconAnchor: [16, 32],
-                className: 'custom-svg-icon'
-            });
-        }
 
         // Initialisation de l'index et de l'élément texte
         var index = 0;
