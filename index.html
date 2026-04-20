@@ -56,8 +56,8 @@
      crossorigin=""></script>
 	<script>
         // Initialisation de la carte
-        var map = L.map('map').setView([43.944827228888734, 4.816506893623895], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        var map = L.map('map').setView([43.944827228888734, 4.816506893623895],13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution: '¬© OpenStreetMap'}).addTo(map);
 
         // Fonction pour cr√©er des ic√¥nes color√©es
         function createColoredIcon(color) {
@@ -72,21 +72,7 @@
                 className: 'custom-svg-icon'
             });
         }
-		     // Fonction pour cr√©er des ic√¥nes color√©es
-        function createColoredIcon(id,color) {
-            return L.divIcon({
-                html: `
-                    <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16 0 C24.8366 0 32 7.16344 32 16 C32 24.8366 24.8366 32 16 32 C7.16344 32 0 24.8366 0 16 C0 7.16344 7.16344 0 16 0 Z" fill="${color}" />
-                        <path d="M16 5 C10.4775 5 6 9.48242 6 15.0114 C6 24.5152 16 31 16 31 C16 31 26 24.5152 26 15.0114 C26 9.48242 21.5225 5 16 5 Z" fill="white" stroke="${color}" stroke-width="2" />
-					<text x="16" y="18" font-family="Arial" font-size="10" fill="${color}" text-anchor="middle" dominant-baseline="middle">${id}</text>
-</svg>
-                `,
-                iconSize: [32, 32],
-                iconAnchor: [16, 32],
-                className: 'custom-svg-icon'
-            });
-        }
+		    
         // Tableau des markers
         var markers = [
 			 {
@@ -122,7 +108,7 @@ Rappelons encore que 3 sur 10 des victimes de viol, de tentative de viol, ou d‚Ä
                 icon: createColoredIcon('#FF0000')
             },
             {
-                coords: [43.94408, 4.81595],
+                coords: [43.944121, 4.816099],
                 id: 2,
                 text: `
                     <div>
@@ -133,7 +119,7 @@ Rappelons encore que 3 sur 10 des victimes de viol, de tentative de viol, ou d‚Ä
                 icon: createColoredIcon('#00FF00')
             },
 			{
-                coords: [43.944772, 4.814093],
+                coords: [43.944768, 4.814093],
                 id: 3,
                 text: `
                     <div>
@@ -144,7 +130,7 @@ Rappelons encore que 3 sur 10 des victimes de viol, de tentative de viol, ou d‚Ä
                 icon: createColoredIcon('#00FF00')
             },
 			{
-                coords: [43.94501, 4.81389],
+                coords: [43.944996, 4.813892],
                 id: 4,
                 text: `
                     <div>
@@ -232,7 +218,7 @@ Rappelons encore que 3 sur 10 des victimes de viol, de tentative de viol, ou d‚Ä
                 icon: createColoredIcon('#00FF00')
             },
 				{
-                coords: [43.94457, 4.81594],
+                coords: [43.944256, 4.815858],
                 id: 12,
                 text: `
                     <div>
@@ -306,7 +292,7 @@ Rappelons encore que 3 sur 10 des victimes de viol, de tentative de viol, ou d‚Ä
         // Fonction pour centrer la carte et mettre √† jour le texte
         function moveMap(index) {
             var marker = markers[index];
-            map.flyTo(marker.coords, 18.5);
+            map.flyTo(marker.coords, 18);
             textElement.innerHTML = marker.text; //  Met √† jour le texte
         }
 
