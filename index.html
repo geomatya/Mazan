@@ -10,15 +10,13 @@
             grid-template-rows: 1fr 3fr;
         }
 			   #map {
-order:-1;
+	 order:-1;
      height: 300px;
         }
-       #story {
-     height: 500px;
-        }
         #story {
+     		height: 500px;
             display: flex;
-            flex-direction: flex;
+            flex-direction: column;
             gap: 10px;
 			padding: 10px;
 			margin:0;
@@ -297,7 +295,7 @@ Dans la rue comme au tribunal, sur ce très vaste ensemble de femmes ont été a
       textElement.innerHTML = `
     <div>
         <h3>Bienvenue !</h3>
-        <p>Pour débuter la navigation cliquer sur "Suivant" en bas à droite</p>
+        <p>Pour débuter la navigation cliquer sur "Suivant" en haut à droite</p>
     </div>
 `;
 		
